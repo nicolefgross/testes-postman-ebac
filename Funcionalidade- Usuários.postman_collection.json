@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "a0934509-1c66-4dbc-a750-1ea5a481b822",
+		"name": "Funcionalidade: Usuários",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19840300"
+	},
+	"item": [
+		{
+			"name": "Cadastrar usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser 201 quando o usuário for criado\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Validar mensagem ao cadastrar o usuário\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Ariel da Silva 3\",\r\n  \"email\": \"arieldasilva3@qa.com.br\",\r\n  \"password\": \"teste\",\r\n  \"administrador\": \"true\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cadastrar usuário - cenário negativo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Deve mostrar mensagem de erro ao cadastrar usuário existente\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Este email já está sendo usado\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Fernando Sampaio\",\r\n  \"email\": \"arieldasilva@qa.com.br\",\r\n  \"password\": \"teste\",\r\n  \"administrador\": \"true\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar usuários cadastrados",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser 200 quando apresentar a lista de usuário cadastrados \", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar usuário cadastrados - cenário negativo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser 400 ao buscar usuário através do ID inexistente\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Deve apresentar a mensagem de erro ao pesquisar usuário por ID inexistente\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Usuário não encontrado\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/usuarios/p4kekOFx11i1tkWT",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"p4kekOFx11i1tkWT"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar usuário por ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Deve exibir o nome do usuário ao fazer a busca através do ID\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Ariel da Silva\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/usuarios/m8kekOFx11i1tkWS",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"m8kekOFx11i1tkWS"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser 200 quando for fazer uma alteração no usuário\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Deve apresentar uma mensagem de sucesso ao alterar o cadastro do usuário de forma correta\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Registro alterado com sucesso\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"nome\": \"Fernando Sampaio Segunda conta\",\r\n            \"email\": \"fernando_sampaio_sampaio@com.br\",\r\n            \"password\": \"teste\",\r\n            \"administrador\": \"true\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios/FWOLLvmFqdQEd8pQ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"FWOLLvmFqdQEd8pQ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar usuário - cenário negativo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser de 400 ao editar um usuário e alterar o e-mail para um e-mail já cadastrado\", function () {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"pm.test(\"Deve apresentar mensagem de erro ao fazer uma edição com um e-mail já cadastrado\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Este email já está sendo usado\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Fernando Sampaio Segunda conta\",\r\n  \"email\": \"arieldasilva@qa.com.br\",\r\n  \"password\": \"teste\",\r\n  \"administrador\": \"true\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios/FWOLLvmFqdQEd8pQ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"FWOLLvmFqdQEd8pQ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar usuário - novo cadastro feito através do ID não encontrado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser de 201 ao tentar alterar usuário com ID não encontrado\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"pm.test(\"Deve apresentar mensagem de sucesso ao tentar alterar dados do usuário com ID não encontrado, e com isso fazendo um novo cadastro \", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Kevin Souza\",\r\n  \"email\": \"kevinha123@qa.com.br\",\r\n  \"password\": \"teste\",\r\n  \"administrador\": \"true\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/usuarios/n10kekOFx11i1tkPQ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"n10kekOFx11i1tkPQ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Excluir usuário",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code deve ser 200 ao deletar um usuário com sucesso\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Deve apresentar mensagem de sucesso ao deletar um usuário\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/usuarios/RKbzMCHM12Z4bZPb",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"usuarios",
+						"RKbzMCHM12Z4bZPb"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
